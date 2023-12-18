@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, Request, Response } from '@nestjs/common';
 import { UserService } from 'src/user/user.service';
 
 import * as bcrypt from 'bcrypt';
@@ -31,10 +31,12 @@ export class AuthService {
     };
 
     return {
-      user,
+      user: {
+        id: user.id,
+        name: user.name,
+        email: user.email,
+      },
       backendTokens: {
-        accessToken: this.jwtService.sign(payload),
-        refreshToken: this.jwtService.sign(payload, { expiresIn: '7d' }),
         expiresIn: new Date().setTime(new Date().getTime() + EXPIRE_TIME),
       },
     };
