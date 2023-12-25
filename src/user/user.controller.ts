@@ -11,6 +11,7 @@ import {
 import { CreateUserDto, UpdateUserDto } from './dto/createUserDto';
 import { UserService } from './user.service';
 import { User } from 'src/entities/user.entity';
+import { Role } from 'src/entities/user.entity';
 
 @Controller('user')
 export class UserController {
@@ -28,6 +29,12 @@ export class UserController {
 
   @Post()
   async create(@Body() createUserDto: CreateUserDto): Promise<User> {
+    return this.userService.create(createUserDto);
+  }
+
+  @Post('create-admin')
+  async createAdmin(@Body() createUserDto: CreateUserDto): Promise<User> {
+    createUserDto.role = Role.Admin;
     return this.userService.create(createUserDto);
   }
 

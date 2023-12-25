@@ -27,18 +27,21 @@ export class AuthService {
       username: user.email,
       sub: {
         name: user.name,
+        role: user.role,
       },
     };
 
+    const accessToken = this.jwtService.sign(payload);
+    const refreshToken = this.jwtService.sign(payload, {
+      expiresIn: '7d',
+    });
+    const expiresIn = new Date().setTime(new Date().getTime() + EXPIRE_TIME);
+
     return {
-      user: {
-        id: user.id,
-        name: user.name,
-        email: user.email,
-      },
-      backendTokens: {
-        expiresIn: new Date().setTime(new Date().getTime() + EXPIRE_TIME),
-      },
+      role: user.role,
+      accessToken,
+      refreshToken,
+      expiresIn,
     };
   }
 
