@@ -1,9 +1,11 @@
-import { IsString } from "class-validator";
+import { IsArray, IsString } from 'class-validator';
 
-export class CreateUserDto {
-    @IsString()
-    name: string;
-  
-    @IsString()
-    images: string[];
-  }
+export class CreateBillboardDto {
+  @IsString()
+  name: string;
+
+  @IsArray()
+  images: string[];
+}
+
+export class UpdateBillboardDto extends CreateBillboardDto {}

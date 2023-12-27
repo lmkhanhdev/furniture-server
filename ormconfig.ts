@@ -1,3 +1,4 @@
+import { Billboard } from 'src/entities/billboard.entity';
 import { User } from 'src/entities/user.entity';
 import { PostgresConnectionOptions } from 'typeorm/driver/postgres/PostgresConnectionOptions';
 
@@ -8,7 +9,7 @@ const config: PostgresConnectionOptions = {
   port: 5432,
   username: 'postgres',
   password: 'minhkhanh2003',
-  entities: [User],
+  entities: [User, Billboard],
   synchronize: true,
 };
 
