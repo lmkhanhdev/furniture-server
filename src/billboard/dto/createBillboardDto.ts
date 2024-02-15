@@ -1,4 +1,4 @@
-import { IsArray, IsString } from 'class-validator';
+import { IsArray, IsBoolean, IsString } from 'class-validator';
 
 export class CreateBillboardDto {
   @IsString()
@@ -6,6 +6,9 @@ export class CreateBillboardDto {
 
   @IsArray()
   images: string[];
+
+  @IsBoolean()
+  active: boolean = false;
 }
 
 export class UpdateBillboardDto extends CreateBillboardDto {}

@@ -22,7 +22,6 @@ export class BillboardService {
   });
 
   async uploadFile(file) {
-    console.log(file);
     const { originalname } = file;
 
     return await this.s3_upload(
@@ -59,11 +58,11 @@ export class BillboardService {
   }
 
   async billboardFindOne(id: number): Promise<Billboard> {
-    const user = await this.billboardRipo.findOne({ where: { id: id } });
-    if (!user) {
-      throw new NotFoundException(`User with id ${id} not found`);
+    const billboard = await this.billboardRipo.findOne({ where: { id: id } });
+    if (!billboard) {
+      throw new NotFoundException(`Billboard with id ${id} not found`);
     }
-    return user;
+    return billboard;
   }
 
   async createBillboard(
@@ -99,5 +98,19 @@ export class BillboardService {
     const billboard = await this.billboardFindOne(id);
 
     await this.billboardRipo.remove(billboard);
+  }
+
+  async toggleActive(id: number): Promise<Billboard> {
+    const billboard = await this.billboardRipo.findOne({ where: { id: id } });
+    if (!billboard) {
+      throw new NotFoundException(`Billboard with id ${id} not found`);
+    }
+
+    // Đảo ngược trạng thái active
+    billboard.active = !billboard.active;
+
+    await this.billboardRipo.save(billboard);
+
+    return billboard;
   }
 }

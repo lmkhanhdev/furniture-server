@@ -4,6 +4,7 @@ import {
   Delete,
   Get,
   Param,
+  Patch,
   Post,
   Put,
   UploadedFile,
@@ -44,7 +45,7 @@ export class BillboardController {
     return this.billboardService.createBillboard(createBillboardDto);
   }
 
-  @Put(':id/update-billboard')
+  @Put(':id')
   async updateBillboard(
     @Param('id') id: number,
     @Body() updateBillboardDto: UpdateBillboardDto,
@@ -55,5 +56,15 @@ export class BillboardController {
   @Delete(':id')
   async deleteBillboard(@Param('id') id: number): Promise<void> {
     return this.billboardService.deleteBillboard(id);
+  }
+
+  @Patch(':id/toggle-active')
+  async toggleActive(@Param('id') id: number): Promise<any> {
+    const billboard = await this.billboardService.toggleActive(id);
+    return {
+      message: `Billboard with ID ${id} is now ${
+        billboard.active ? 'active' : 'inactive'
+      }`,
+    };
   }
 }
